@@ -1,4 +1,4 @@
-const toTest = require("../script.js");
+const toTest = require("../shipFactory.js");
 
 
 beforeEach(() => {
