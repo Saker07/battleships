@@ -14,7 +14,7 @@ function shipFactory(length){
     }
     const hit = (n) => {
         hitpoints[n] = 1;
-        return hitpoints;
+        return 1;
     }
     const isSunk = () => {
         return hitpoints.every(point => point == 1);
