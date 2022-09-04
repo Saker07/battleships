@@ -1,5 +1,10 @@
 const toTest = require("./script.js");
 
+
+beforeAll(() => {
+    testShip = toTest.shipFactory(3);
+})
+
 test("Basic ship factory length:3", () => {
     expect(JSON.stringify(toTest.shipFactory(3))).toBe(
         JSON.stringify({
@@ -17,5 +22,5 @@ test("Basic ship factory length:3", () => {
 })
 
 test("Hit function works? try hitting second position of 3 length ship (input = 1)", () => {
-    expect(toTest.shipFactory.hit(1)).toEqual([0, 1, 0]);
+    expect(testShip.hit(1)).toEqual([0, 1, 0]);
 } )
