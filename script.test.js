@@ -34,4 +34,10 @@ describe("Does isSunk() work?", () => {
         testShip.hit(1);
         expect(testShip.isSunk()).toBe(false);
     })
+    test("Is sunk function works? Try using it on a sunk ship", () => {
+        testShip.hit(0);
+        testShip.hit(1);
+        testShip.hit(2);
+        expect(testShip.isSunk()).toBe(true);
+    })
 })
