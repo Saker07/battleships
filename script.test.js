@@ -1,7 +1,10 @@
 const toTest = require("./script.js");
 
 
-beforeAll(() => {
+beforeEach(() => {
+    testShip = toTest.shipFactory(3);
+})
+afterEach(() => {
     testShip = toTest.shipFactory(3);
 })
 
@@ -24,3 +27,11 @@ test("Basic ship factory length:3", () => {
 test("Hit function works? try hitting second position of 3 length ship (input = 1)", () => {
     expect(testShip.hit(1)).toEqual([0, 1, 0]);
 } )
+
+describe("Does isSunk() work?", () => {
+    test("Is sunk function works? Try using it on a partially hit ship", () => {
+        testShip.hit(0);
+        testShip.hit(1);
+        expect(testShip.isSunk()).toBe(false);
+    })
+})
