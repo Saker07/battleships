@@ -32,20 +32,29 @@ function gameboardFactory(){
         }))
     }
     const placeShip = (x, y, axis, length) => {
-        checkCollision()
-        shipsPlaced = shipFactory(length)
+        let coll = checkCollision(x, y, axis, length);
+        let ship;
+        if(!coll){
+            ship = shipFactory(length);
+            axis = (axis == "x"); //if axis is X, it will be neutral to i, otherwise it will nullify it. It's opposite will do the opposite.
+            for(let i=0; i<length; i++){
+                board[x+i*axis][y+i*!axis].hit = () => {ship.hit(i)};
+                board[x+i*axis][y+i*!axis].sunk = ship.sunk;
+            }
+            shipsPlaced.push(ship);
+        }
     }
     const checkCollision = (x, y, axis, length) => {
         //returns true if there is a collision detected, false otherwise
         let collision = false;
         if(axis == "x"){
             for(let i=0; i<length; i++){
-                //if there is a hit function there is a shit, so it would collide
+                //if there is a hit function there is a ship, so it would collide
                 if(board[x+i][y].hit){collision = true}
             }
         } else{
             for(let i=0; i<length; i++){
-                //if there is a hit function there is a shit, so it would collide
+                //if there is a hit function there is a ship, so it would collide
                 if(board[x][y+1].hit){collision = true}
             }
         }
