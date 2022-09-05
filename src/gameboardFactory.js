@@ -1,3 +1,5 @@
+const {shipFactory} = require("./shipFactory.js");
+
 function gameboardFactory(){
     //board cell states: -1-miss 0-default 1-hit 2-isSunk
     let board = [];
