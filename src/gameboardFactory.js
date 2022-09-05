@@ -64,6 +64,12 @@ function gameboardFactory(){
         return shipsPlaced.every(placed => placed.isSunk())
     }
 
+    return {
+        receiveDamage,
+        update,
+        placeShip,
+        endOfGame
+    }
 
     /* {
         board[][]
