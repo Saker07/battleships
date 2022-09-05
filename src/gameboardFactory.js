@@ -1,3 +1,5 @@
+const { shipFactory } = require("./shipFactory");
+
 function gameboardFactory(){
     //board cell states: -1-miss 0-default 1-hit 2-sunk
     let board = [];
@@ -23,14 +25,31 @@ function gameboardFactory(){
         update(); //=====================================================================
     }
     const update = ()=>{
-        board.forEach(row => row.forEach(cell => {
+        board.forEach(column => column.forEach(cell => {
             //if the state is 1, the ship might have been sunk, otherwise it cannot change during the update
             cell.state = cell.state == 1 ? cell.hit()+cell.sunk() : cell.state;
             return board;
         }))
     }
-    const placeShip = (x, y, axis) => {
-        
+    const placeShip = (x, y, axis, length) => {
+        checkCollision()
+        shipsPlaced = shipFactory(length)
+    }
+    const checkCollision = (x, y, axis, length) => {
+        //returns true if there is a collision detected, false otherwise
+        let collision = false;
+        if(axis == "x"){
+            for(let i=0; i<length; i++){
+                //if there is a hit function there is a shit, so it would collide
+                if(board[x+i][y].hit){collision = true}
+            }
+        } else{
+            for(let i=0; i<length; i++){
+                //if there is a hit function there is a shit, so it would collide
+                if(board[x][y+1].hit){collision = true}
+            }
+        }
+        return collision;
     }
 
 
