@@ -1,7 +1,7 @@
 const { shipFactory } = require("./shipFactory");
 
 function gameboardFactory(){
-    //board cell states: -1-miss 0-default 1-hit 2-sunk
+    //board cell states: -1-miss 0-default 1-hit 2-isSunk
     let board = [];
     let shipsPlaced = [];
     const gridSize = 10;
@@ -27,7 +27,7 @@ function gameboardFactory(){
     const update = ()=>{
         board.forEach(column => column.forEach(cell => {
             //if the state is 1, the ship might have been sunk, otherwise it cannot change during the update
-            cell.state = cell.state == 1 ? cell.hit()+cell.sunk() : cell.state;
+            cell.state = cell.state == 1 ? cell.hit()+cell.isSunk() : cell.state;
             return board;
         }))
     }
@@ -39,7 +39,7 @@ function gameboardFactory(){
             axis = (axis == "x"); //if axis is X, it will be neutral to i, otherwise it will nullify it. It's opposite will do the opposite.
             for(let i=0; i<length; i++){
                 board[x+i*axis][y+i*!axis].hit = () => {ship.hit(i)};
-                board[x+i*axis][y+i*!axis].sunk = ship.sunk;
+                board[x+i*axis][y+i*!axis].isSunk = ship.isSunk;
             }
             shipsPlaced.push(ship);
         }
@@ -59,6 +59,9 @@ function gameboardFactory(){
             }
         }
         return collision;
+    }
+    const endOfGame = () => {
+        return shipsPlaced.every(placed => placed.isSunk())
     }
 
 
