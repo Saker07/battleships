@@ -10,7 +10,7 @@ function gameboardFactory(){
         board.push([]);
         for(let j=0; j<gridSize; j++){
             board[i].push({
-                state: 0;
+                state: 0
             });
         }
     }
@@ -28,8 +28,8 @@ function gameboardFactory(){
         board.forEach(column => column.forEach(cell => {
             //if the state is 1, the ship might have been sunk, otherwise it cannot change during the update
             cell.state = cell.state == 1 ? cell.hit()+cell.isSunk() : cell.state;
-            return board;
         }))
+        return board;
     }
     const placeShip = (x, y, axis, length) => {
         let coll = checkCollision(x, y, axis, length);
