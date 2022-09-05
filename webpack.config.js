@@ -5,7 +5,7 @@ module.exports = {
     mode: 'development',
     entry: './src/script.js',
     output: {
-      filename: '[name].js',
+      filename: 'scipt.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
     },
@@ -31,7 +31,7 @@ module.exports = {
             },
         ],
     },
-    optimization: {
+/*     optimization: {
       runtimeChunk: 'single',
-    },
+    }, */
   };
