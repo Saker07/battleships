@@ -1,5 +1,6 @@
 import shipFactory from "./shipFactory.js";
 import gameboardFactory from "./gameboardFactory.js"
+import "./style.css"
 
 
 

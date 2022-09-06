@@ -1,0 +1,49 @@
+.gameboardTest {
+    background-color: red;
+    max-height: 200px;
+    max-width: 200px;
+    flex-grow: 1;
+  }
+  .announcer {
+    background-color: red;
+    height: 50px;
+    width: 200px;
+  }
+  
+  /*up until now its just mock elements */
+  * {
+    margin: 0;
+  }
+  body {
+    height:100vh;
+  }
+  .title{
+    text-align: center;
+    margin-bottom: 1em;
+  }
+  
+  .gameContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .playerContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  #test{
+    display:flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* align center is not align stretch */
+  /*to use both wrap in div and stretch one and center the other?*/
