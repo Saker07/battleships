@@ -48,14 +48,16 @@ function gameboardFactory(){
         //returns true if there is a collision detected, false otherwise
         let collision = false;
         if(axis == "x"){
-            for(let i=0; i<length; i++){
-                //if there is a hit function there is a ship, so it would collide
+            collision = x+length > board.length ? true : false;  //check if out of bounds
+            for(let i=0; i<length && !collision; i++){
+                //if there is a hit function there is a ship, so it would collide, also check if out of bounds
                 if(board[x+i][y].hit){collision = true}
             }
         } else{
-            for(let i=0; i<length; i++){
+            collision = y+length > board[x].length ? true : false;  //check if out of bounds
+            for(let i=0; i<length && !collision; i++){
                 //if there is a hit function there is a ship, so it would collide
-                if(board[x][y+1].hit){collision = true}
+                if(board[x][y+i].hit){collision = true}
             }
         }
         return collision;
