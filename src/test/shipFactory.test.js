@@ -1,15 +1,16 @@
-const toTest = require("../shipFactory.js");
+import {shipFactory} from "../shipFactory.js"
 
+let testShip;
 
 beforeEach(() => {
-    testShip = toTest.shipFactory(3);
+    testShip = shipFactory(3);
 })
 afterEach(() => {
-    testShip = toTest.shipFactory(3);
+    testShip = shipFactory(3);
 })
 
 test("Basic ship factory length:3", () => {
-    expect(JSON.stringify(toTest.shipFactory(3))).toBe(
+    expect(JSON.stringify(shipFactory(3))).toBe(
         JSON.stringify({
             length: 3,
             hitpoints: [0, 0, 0],

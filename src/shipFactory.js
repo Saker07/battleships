@@ -7,9 +7,9 @@
 
 
 
-function shipFactory(length){
+export default function shipFactory(length){
     let hitpoints = [];
-    for(i=0; i<length; i++){
+    for(let i=0; i<length; i++){
         hitpoints.push(0);
     }
     const hit = (n) => {
@@ -29,6 +29,8 @@ function shipFactory(length){
     }
 }
 
-module.exports = {
+export { shipFactory }
+
+/* module.exports = {
 shipFactory
-}
+} */

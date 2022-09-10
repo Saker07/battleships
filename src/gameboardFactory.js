@@ -1,10 +1,10 @@
-const {shipFactory} = require("./shipFactory.js");
+import shipFactory from "./shipFactory.js";
 
-function gameboardFactory(){
+function gameboardFactory(inputSize){
     //board cell states: -1-miss 0-default 1-hit 2-isSunk
     let board = [];
     let shipsPlaced = [];
-    const gridSize = 10;
+    const gridSize = inputSize ? inputSize : 10;
     for(let i=0; i<gridSize; i++){
         //initialize board in the default state of 0
         board.push([]);
@@ -15,20 +15,12 @@ function gameboardFactory(){
         }
     }
     const receiveDamage = (x, y) => {
-        if(board[x][y].hit){
-            //if there is a hit function there is a ship
-            board[x][y].state = board[x][y].hit();
-        }else{
-            //otherwise it's a miss
-            board[x][y].state = -1;
-        }
+        let cell = board[x][y];
+        cellHit(cell);
         update(); //=====================================================================
     }
     const update = ()=>{
-        board.forEach(column => column.forEach(cell => {
-            //if the state is 1, the ship might have been sunk, otherwise it cannot change during the update
-            cell.state = cell.state == 1 ? cell.hit()+cell.isSunk() : cell.state;
-        }))
+        board.forEach(column => column.forEach(cell => updateCell()))
         return board;
     }
     const placeShip = (x, y, axis, length) => {
@@ -63,7 +55,7 @@ function gameboardFactory(){
         return collision;
     }
     const endOfGame = () => {
-        return shipsPlaced.every(placed => placed.isSunk())
+        return shipsPlaced.every(placed => placed[0].isSunk())
     }
 
     return {
@@ -84,4 +76,21 @@ function gameboardFactory(){
     } */
 }
 
+function updateCell(cell){
+    //if the state is 1, the ship might have been sunk, otherwise it cannot change during the update
+    cell.state = cell.state == 1 ? cell.hit()+cell.isSunk() : cell.state;
+    return cell;
+}
+function cellHit(cell){
+    if(cell.hit){
+        //if there is a hit function there is a ship
+        cell.state = cell.hit();
+    }else{
+        //otherwise it's a miss
+        cell.state = -1;
+    }
+    return cell;
+}
+
+export { updateCell, cellHit }
 export default gameboardFactory;
