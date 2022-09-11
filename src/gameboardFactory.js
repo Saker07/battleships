@@ -20,7 +20,7 @@ function gameboardFactory(inputSize){
         update(); //=====================================================================
     }
     const update = ()=>{
-        board.forEach(column => column.forEach(cell => updateCell()))
+        board.forEach(column => column.forEach(cell => updateCell(cell)))
         return board;
     }
     const placeShip = (x, y, axis, length) => {
@@ -35,22 +35,24 @@ function gameboardFactory(inputSize){
             }
             shipsPlaced.push(ship);
         }
+        return coll;
     }
     const checkCollision = (x, y, axis, length) => {
         //returns true if there is a collision detected, false otherwise
         let collision = false;
         if(axis == "x"){
-            collision = x+length > board.length ? true : false;  //check if out of bounds
+            collision = (x+length) > board.length ? true : false;  //check if out of bounds
             for(let i=0; i<length && !collision; i++){
                 //if there is a hit function there is a ship, so it would collide, also check if out of bounds
                 if(board[x+i][y].hit){collision = true}
             }
         } else{
-            collision = y+length > board[x].length ? true : false;  //check if out of bounds
+            collision = (y+length) > board[x].length ? true : false;  //check if out of bounds
             for(let i=0; i<length && !collision; i++){
                 //if there is a hit function there is a ship, so it would collide
                 if(board[x][y+i].hit){collision = true}
             }
+
         }
         return collision;
     }

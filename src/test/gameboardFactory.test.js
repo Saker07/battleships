@@ -1,9 +1,9 @@
 import gameboardFactory, { updateCell, cellHit } from "../gameboardFactory.js";
 
 
-let gm, cell;
+let gb, cell;
 beforeAll(() => {
-    gm = gameboardFactory();
+    gb = gameboardFactory();
     cell = {};
 })
 
@@ -59,4 +59,23 @@ describe("Testing receiveDamage", () => {
     })
 })
 
-descrive("Testing endOfGame")
+describe("Testing placeShip", () => {
+    test("Place ship length=3, axis x", () => {
+        gb.placeShip(1, 1, "x", 3);
+        expect(gb.update()[1][1].hit).not.toBe(undefined);
+        expect(gb.update()[2][1].hit).not.toBe(undefined);
+        expect(gb.update()[3][1].hit).not.toBe(undefined);
+        expect(gb.update()[4][1].hit).toBe(undefined)
+    })
+    test("Place ship length=4, axis y", () => {
+        expect(gb.placeShip(1, 2, "y", 4)).toBe(false);
+        expect(gb.update()[1][2].hit).not.toBe(undefined);
+        expect(gb.update()[1][3].hit).not.toBe(undefined);
+        expect(gb.update()[1][4].hit).not.toBe(undefined);
+        expect(gb.update()[1][5].hit).not.toBe(undefined);
+        expect(gb.update()[1][6].hit).toBe(undefined);
+    })
+    test("Place ship length=3, axis x, collision", () => {})
+    test("Place ship length=3, axis y, outOfBound", () => {})
+
+})
