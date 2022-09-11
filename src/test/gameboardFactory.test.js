@@ -1,7 +1,7 @@
 import gameboardFactory, { updateCell, cellHit } from "../gameboardFactory.js";
 
 
-let gb, cell;
+let gb, cell, shipsPlaced;
 beforeAll(() => {
     gb = gameboardFactory();
     cell = {};
@@ -61,7 +61,7 @@ describe("Testing receiveDamage", () => {
 
 describe("Testing placeShip", () => {
     test("Place ship length=3, axis x", () => {
-        let ship = gb.placeShip(1, 1, "x", 3);
+        gb.placeShip(1, 1, "x", 3);
         expect(gb.update()[1][1].hit).not.toBe(undefined);
         expect(gb.update()[2][1].hit).not.toBe(undefined);
         expect(gb.update()[3][1].hit).not.toBe(undefined);
@@ -89,4 +89,23 @@ describe("Testing placeShip", () => {
         expect(gb.update()[8][9].hit).toBe(undefined);
     })
 
+})
+
+describe("Testing endOfGame", () => {
+    beforeAll(() => {
+        gb.receiveDamage(1, 1);
+        gb.receiveDamage(2, 1);
+        gb.receiveDamage(3, 1);
+        gb.receiveDamage(1, 2);
+        gb.receiveDamage(1, 3);
+        gb.receiveDamage(1, 4);
+        gb.receiveDamage(1, 5);
+    })
+    test("All but 1 ship destroyed", () => {
+        expect(gb.endOfGame()).toBe(false);
+    })
+    test("All ships destroyed", () => {
+        gb.receiveDamage(9, 9);
+        expect(gb.endOfGame()).toBe(true);
+    })
 })

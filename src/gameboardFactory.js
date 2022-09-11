@@ -57,7 +57,7 @@ function gameboardFactory(inputSize){
         return collision;
     }
     const endOfGame = () => {
-        return shipsPlaced.every(placed => placed[0].isSunk())
+        return shipsPlaced.every(placed => placed.isSunk())
     }
 
     return {
