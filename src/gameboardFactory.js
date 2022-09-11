@@ -4,7 +4,7 @@ function gameboardFactory(inputSize){
     //board cell states: -1-miss 0-default 1-hit 2-isSunk
     let board = [];
     let shipsPlaced = [];
-    const gridSize = inputSize ? inputSize : 10;
+    const gridSize = inputSize || 10;
     for(let i=0; i<gridSize; i++){
         //initialize board in the default state of 0
         board.push([]);
@@ -35,7 +35,7 @@ function gameboardFactory(inputSize){
             }
             shipsPlaced.push(ship);
         }
-        return coll;
+        return ship;
     }
     const checkCollision = (x, y, axis, length) => {
         //returns true if there is a collision detected, false otherwise

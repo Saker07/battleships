@@ -11,7 +11,7 @@ bb.placeShip(1, 1, "x", 4);
 console.table(bb.update().map(column => column.map(item=>{
     return item.hit;
 })));
-bb.placeShip(1,2, "y", 4);
+bb.placeShip(9,9, "y", 1);
 console.table(bb.update().map(column => column.map(item=>{
     return item.hit;
 })));

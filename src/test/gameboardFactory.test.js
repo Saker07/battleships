@@ -61,21 +61,32 @@ describe("Testing receiveDamage", () => {
 
 describe("Testing placeShip", () => {
     test("Place ship length=3, axis x", () => {
-        gb.placeShip(1, 1, "x", 3);
+        let ship = gb.placeShip(1, 1, "x", 3);
         expect(gb.update()[1][1].hit).not.toBe(undefined);
         expect(gb.update()[2][1].hit).not.toBe(undefined);
         expect(gb.update()[3][1].hit).not.toBe(undefined);
         expect(gb.update()[4][1].hit).toBe(undefined)
     })
     test("Place ship length=4, axis y", () => {
-        expect(gb.placeShip(1, 2, "y", 4)).toBe(false);
+        gb.placeShip(1, 2, "y", 4);
         expect(gb.update()[1][2].hit).not.toBe(undefined);
         expect(gb.update()[1][3].hit).not.toBe(undefined);
         expect(gb.update()[1][4].hit).not.toBe(undefined);
         expect(gb.update()[1][5].hit).not.toBe(undefined);
         expect(gb.update()[1][6].hit).toBe(undefined);
     })
-    test("Place ship length=3, axis x, collision", () => {})
-    test("Place ship length=3, axis y, outOfBound", () => {})
+    test("Place ship length=3, axis x, collision", () => {
+        gb.placeShip(0, 1, "x", 2);
+        expect(gb.update()[0][1].hit).toBe(undefined);
+        expect(gb.update()[1][1].hit).not.toBe(undefined);
+    })
+    test("Place ship length=1, axys y, at the corner, NOT outOfBound", () => {
+        gb.placeShip(9, 9, "y", 1);
+        expect(gb.update()[9][9].hit).not.toBe(undefined);
+    })
+    test("Place ship length=3, axis y, outOfBound", () => {
+        gb.placeShip(8, 9, "y", 2);
+        expect(gb.update()[8][9].hit).toBe(undefined);
+    })
 
 })
