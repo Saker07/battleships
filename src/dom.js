@@ -1,4 +1,5 @@
 function showHidden(anch, gb){
+    //makes gameboard GB on screen by replacing content of ANCH, hidden means it is the "enemy's" board, so you don't see the ships
     let board = gb.update();
     let table = document.createElement("div");
     board.forEach(column => column.forEach(cell => {
@@ -10,6 +11,7 @@ function showHidden(anch, gb){
 }
 
 function showWhole(anch, gb){
+    //makes gameboard GB on screen by replacing content of ANCH, whole means it is the your board, so you see the ships
     let board = gb.update();
     let table = document.createElement("div");
     board.forEach(column => column.forEach(cell => {
@@ -30,5 +32,30 @@ function addClassToCell(cell, elem){
     else if(cell.state == 2){stateClass = "sunk"}
     elem.classList.add(stateClass);
 }
+
+function addEventHitCell(elem, cell){
+    elem.addEventListener("click", e => {
+        if (cell.hit()){
+            //if mode is AI then call AI, otherwise call game with opposites.
+            if(AIMode == true){AITurn()}
+            else{game(nextP, currP)} //not complete since there is no way to manage local multiplayer yet.
+        }
+    })
+}
+
+
+
+function game(currP, nextP){
+    /* 
+        showWhole curr player
+        show hidden next player
+        add event to next player
+            receive damage, if true and AImode=true, call AI, otherwhise, call game(inverso)
+             */
+        showWhole(currP.anchm, currP.gb);
+        showHidden(nextP.anch, nextP.gb);
+        nextP.gb.update().forEach(column => column.forEach())
+        
+    }
 
 export {showWhole, showHidden}

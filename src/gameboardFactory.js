@@ -16,8 +16,10 @@ function gameboardFactory(inputSize){
     }
     const receiveDamage = (x, y) => {
         let cell = board[x][y];
+        let cellBefore = Object.assign({}, cell);
         cellHit(cell);
         update(); //=====================================================================
+        return !(cellBefore == cell);
     }
     const update = ()=>{
         board.forEach(column => column.forEach(cell => updateCell(cell)))

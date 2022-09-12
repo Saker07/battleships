@@ -7,15 +7,19 @@ import * as domStuff from "./dom.js"
 
 
 /**/
-let p1 = gameboardFactory();
-let p2 = gameboardFactory();
-p1.placeShip(1, 1, "x", 4);
-p1.placeShip(9,9, "y", 1);
-console.table(p1.update().map(column => column.map(item=>{
+let p1 = {
+    gb: gameboardFactory(),
+    anch: document.querySelector(".gameboardTest.playerOne")
+}
+let p2 = {
+    gb: gameboardFactory();
+    anch: document.querySelector(".gameboardTest.playerTwo")
+}
+p1.gb.placeShip(1, 1, "x", 4);
+p1.gb.placeShip(9,9, "y", 1);
+console.table(p1.gb.update().map(column => column.map(item=>{
     return item.hit;
 })));
-let p1Anch = document.querySelector(".gameboardTest.playerOne")
-let p2Anch = document.querySelector(".gameboardTest.playerTwo")
 
-domStuff.showWhole(p1Anch, p1);
+domStuff.showWhole(p1.anch, p1.gb);
 /**/
