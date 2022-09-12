@@ -51,6 +51,7 @@ describe("Testing receiveDamage", () => {
     })
     test("Receive damage with a ship", () => {
         cell.hit = () => 1;
+        cell.isSunk = () => 0;
         cell.state = 0;
         expect(cellHit(cell).state).toBe(1);
     })

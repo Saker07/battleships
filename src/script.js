@@ -12,7 +12,7 @@ let p1 = {
     anch: document.querySelector(".gameboardTest.playerOne")
 }
 let p2 = {
-    gb: gameboardFactory();
+    gb: gameboardFactory(),
     anch: document.querySelector(".gameboardTest.playerTwo")
 }
 p1.gb.placeShip(1, 1, "x", 4);
@@ -20,6 +20,7 @@ p1.gb.placeShip(9,9, "y", 1);
 console.table(p1.gb.update().map(column => column.map(item=>{
     return item.hit;
 })));
+domStuff.game(p1, p2);
 
-domStuff.showWhole(p1.anch, p1.gb);
+/* domStuff.showWhole(p1.anch, p1.gb); */
 /**/

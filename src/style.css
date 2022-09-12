@@ -61,6 +61,15 @@ h3 {
   border-color: black;
   border-width: 0.1rem;
 }
+.miss {
+  background-color: black;
+}
+.hit {
+  background-color: pink;
+}
+.sunk {
+  background-color: blueviolet;
+}
 
 /* align center is not align stretch */
 /*to use both wrap in div and stretch one and center the other?*/

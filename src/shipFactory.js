@@ -14,9 +14,8 @@ export default function shipFactory(length){
     }
     const hit = (n) => {
         //registers the hit in hitpoints and returns 1.
-        let ret = !hipoints[n]; //if 0, means it will be hit, so true, otherwise it won't so false.
         hitpoints[n] = 1;
-        return ret;
+        return 1;
     }
     const isSunk = () => {
         //returns true if the ship is sunk

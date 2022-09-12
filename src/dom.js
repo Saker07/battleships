@@ -23,7 +23,7 @@ function showWhole(anch, gb){
     anch.innerHTML = table.innerHTML;
 }
 
-function addClassToCell(cell, elem){
+function addClassToCell(cell, elem){    //add the right class to the cell based on its state
     let stateClass;
     elem.classList.add("hiddenCell");
     if(cell.state == 0){stateClass = "notHit"}
@@ -33,29 +33,74 @@ function addClassToCell(cell, elem){
     elem.classList.add(stateClass);
 }
 
-function addEventHitCell(elem, cell){
+function addEventHitCell(elem, x, y){ //add the handler for the hit to the element
     elem.addEventListener("click", e => {
-        if (cell.hit()){
+        if (nextP.gb.receiveDamage(x, y)){
             //if mode is AI then call AI, otherwise call game with opposites.
             if(AIMode == true){AITurn()}
             else{game(nextP, currP)} //not complete since there is no way to manage local multiplayer yet.
         }
     })
 }
+function AI(){
+    const hitRandom = function (user, playerAI){
+        let board = playerAI.gb.update();
+        let x, y;
+        let max = board.length;
+        for(let f = false; f==false;){
+            x = max * Math.random();
+            y = max * Math.random();
+            x = Math.floor(x);
+            y = Math.floor(y);
+            console.log(x);                                                                                                     //delete
+            console.log(y);                                                                                                     //delete
+
+            f = (user.gb.receiveDamage(x, y)); //hit returns true if it hit something, false if it doesn't
+            console.log(`result: ${f}`)
+        }
+    }
+    const AITurn = function (user, playerAI){
+        //Call showHiden again just to get rid of event listeners so that the user can't hit.
+        showHidden(playerAI.anch, playerAI.gb);
+        hitRandom(user, playerAI);
+        game(user, playerAI); //again the AI is always p2 and so the user is always p1
+    }
+    return {hitRandom, AITurn}
+}
 
 
 
 function game(currP, nextP){
-    /* 
-        showWhole curr player
-        show hidden next player
-        add event to next player
-            receive damage, if true and AImode=true, call AI, otherwhise, call game(inverso)
-             */
-        showWhole(currP.anchm, currP.gb);
-        showHidden(nextP.anch, nextP.gb);
-        nextP.gb.update().forEach(column => column.forEach())
-        
-    }
+/* 
+    showWhole curr player
+    show hidden next player
+    add event to next player
+        receive damage, if true and AImode=true, call AI, otherwhise, call game(inverso)
+            */
+    const AIMode = true;
+    console.table(currP.gb.update().map(column => column.map(item=>{                                                            //delete
+        return item.state;
+    })))
+    showWhole(currP.anch, currP.gb);
+    showHidden(nextP.anch, nextP.gb);
+    nextP.gb.update().forEach((column, x) => column.forEach((cell, y) => { //for every cell in the board
+        let elem = nextP.anch.childNodes[x*10+y];
+        addEventHitCell(elem, x, y);
+    }))
 
-export {showWhole, showHidden}
+
+    function addEventHitCell(elem, x, y){ //add the handler for the hit to the element
+        elem.addEventListener("click", e => {
+            if (nextP.gb.receiveDamage(x, y)){
+                //if mode is AI then call AI, otherwise call game with opposites.
+                if(AIMode == true){
+                    AITurn(currP, nextP);
+                }
+                else{game(nextP, currP)} //not complete since there is no way to manage local multiplayer yet.
+            }
+        })
+    }
+    const {AITurn, hitRandom} = AI();
+};
+
+export {showWhole, showHidden, game}

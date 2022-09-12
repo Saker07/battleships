@@ -26,7 +26,7 @@ test("Basic ship factory length:3", () => {
 })
 
 test("Hit function works? try hitting second position of 3 length ship (input = 1)", () => {
-    expect(testShip.hit(1)).toBe(1);
+    expect(testShip.hit(1)).toBe(true);
     expect(testShip.hitpoints).toEqual([0, 1, 0])
 })
 

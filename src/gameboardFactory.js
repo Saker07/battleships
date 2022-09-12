@@ -17,9 +17,12 @@ function gameboardFactory(inputSize){
     const receiveDamage = (x, y) => {
         let cell = board[x][y];
         let cellBefore = Object.assign({}, cell);
+        console.log(cellBefore.state);                                                                                //DELETE
         cellHit(cell);
         update(); //=====================================================================
-        return !(cellBefore == cell);
+        console.log(cell.state);                                                                                      //DELETE
+        console.log(cellBefore.state != cell.state)                                                                   //DELETE
+        return (cellBefore.state != cell.state);
     }
     const update = ()=>{
         board.forEach(column => column.forEach(cell => updateCell(cell)))
@@ -32,7 +35,7 @@ function gameboardFactory(inputSize){
             ship = shipFactory(length);
             axis = (axis == "x"); //if axis is X, it will be neutral to i, otherwise it will nullify it. It's opposite will do the opposite.
             for(let i=0; i<length; i++){
-                board[x+i*axis][y+i*!axis].hit = () => {ship.hit(i)};
+                board[x+i*axis][y+i*!axis].hit = () => {return ship.hit(i)};
                 board[x+i*axis][y+i*!axis].isSunk = ship.isSunk;
             }
             shipsPlaced.push(ship);
@@ -87,8 +90,9 @@ function updateCell(cell){
 }
 function cellHit(cell){
     if(cell.hit){
+        console.log(`pre calc:${cell.state}`)
         //if there is a hit function there is a ship
-        cell.state = cell.hit();
+        cell.state = cell.hit() /* + cell.isSunk() */;
     }else{
         //otherwise it's a miss
         cell.state = -1;
