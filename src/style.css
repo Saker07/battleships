@@ -5,18 +5,16 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 body {
-  padding: 10%;
-  padding-top: 0;
-  height:100vh;
-  display: flex;
   flex-direction: column;
-  gap: 10%;
 }
+
 .title{
   text-align: center;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
+
 h1 {
   margin-top: 1em;
   font-size: 3rem;
@@ -25,36 +23,44 @@ h1 {
 
 .gameContainer {
   display: flex;
-  flex-grow: 1;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  gap: 1rem;
+}
+.gameHeader {
+  width: 100%;
 }
 h3 {
   font-size: 2rem;
+  text-align: center;
+  width: 100%;
 }
 
 .playerContainer {
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%;
+  max-height: 80vh;
   justify-content: flex-start;
   align-items: center;
+  gap: 2rem;
 }
-.testContainer{
-  display:flex;
-  width: 100%;
-  flex-grow: 5;
-  justify-content: center;
-  padding: 10%;
-}
+
 .gameboardTest {
-  position: relative;
+  flex-shrink: 1;
   background-color: red;
-  flex-grow: 1;
-  width: 100%;
-  height: 0;
-  padding-top: 100%;
+  width: 40rem;
+  height: 40rem;
+  display: grid;
+  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
 }
+.hiddenCell,.shownCell {
+/*   position: absolute; */
+  background-color: blue;
+  border-style: solid;
+  border-color: black;
+  border-width: 0.1rem;
+}
+
 /* align center is not align stretch */
 /*to use both wrap in div and stretch one and center the other?*/
