@@ -105,7 +105,7 @@ function game(currP, nextP){
 
 
 function shipSetter(player){
-    const ships = [/*ships*/];
+    const ships = [{length: 3}];
     let axis = "x";
 
     let frame = document.createElement("div");
@@ -127,12 +127,14 @@ function shipSetter(player){
     divv.appendChild(resetBtn);
 
     let grid = document.createElement("div");
+    grid.classList.add("shipPlaceGrid");
     showWhole(grid, player.gb);
     addEventPlaceShipToCells(grid, player, ships, axis);
     divv.appendChild(grid);
 
     let shipComment = document.createElement("p");
     shipComment.classList.add("shipsPlaced");
+    shipComment.textContent = `${ships.length}x ships left to place!`;
     divv.appendChild(shipComment);
 
 }
@@ -144,8 +146,10 @@ function addEventPlaceShipToCells(anch, player, ships, axis){
     player.gb.update().forEach((column, x) => column.forEach((cell, y) => {
         let elem = anch.childNodes[x*10+y];
         elem.addEventListener("click", e => {
-            player.gb.placeShip(x, y, axis, ships[0].length);
-            ships.shift();
+            let placed = player.gb.placeShip(x, y, axis, ships[0].length);
+            if(placed){
+                ships.shift();
+            }
             updateShipComment(document.querySelector(".shipsPlaced"));
             if(ships.length == 0){
                 removeShipSetter();
@@ -154,7 +158,7 @@ function addEventPlaceShipToCells(anch, player, ships, axis){
     }))
 }
 
-function deleteShipSetter(){
+function removeShipSetter(){
     let elem = document.querySelector(".frame");
     if(elem && elem!=null){
         elem.remove();

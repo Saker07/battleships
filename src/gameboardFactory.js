@@ -40,7 +40,7 @@ function gameboardFactory(inputSize){
             }
             shipsPlaced.push(ship);
         }
-        return ship;
+        return !coll;
     }
     const checkCollision = (x, y, axis, length) => {
         //returns true if there is a collision detected, false otherwise
