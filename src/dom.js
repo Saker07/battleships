@@ -103,4 +103,63 @@ function game(currP, nextP){
     const {AITurn, hitRandom} = AI();
 };
 
-export {showWhole, showHidden, game}
+
+function shipSetter(player){
+    const ships = [/*ships*/];
+    let axis = "x";
+
+    let frame = document.createElement("div");
+    frame.classList.add("frame");              //
+    document.body.appendChild(frame);
+
+    let divv = document.createElement("div");
+    divv.classList.add("placeShipsDiv");                //
+    frame.appendChild(divv);
+
+    let title = document.createElement("h5");
+    title.textContent = "Place your ships!";
+    divv.appendChild(title);
+
+    let axisBtn = document.createElement("button");
+    axisBtn.addEventListener("click", e => {axis = axis == "x" ? "y" : "x"});
+    divv.appendChild(axisBtn);
+    let resetBtn = document.createElement("button");
+    divv.appendChild(resetBtn);
+
+    let grid = document.createElement("div");
+    showWhole(grid, player.gb);
+    addEventPlaceShipToCells(grid, player, ships, axis);
+    divv.appendChild(grid);
+
+    let shipComment = document.createElement("p");
+    shipComment.classList.add("shipsPlaced");
+    divv.appendChild(shipComment);
+
+}
+function updateShipComment(shipComment, inp){
+    shipComment.textContent = `${inp}x ships left to place!`;
+}
+function addEventPlaceShipToCells(anch, player, ships, axis){
+    //take anch, player, shipsArray and the current axis, makes every cell in the anchored grid have the event to place a ship and get that ship out of the array, update the comment, if ships are finished remove the shipSetter div.
+    player.gb.update().forEach((column, x) => column.forEach((cell, y) => {
+        let elem = anch.childNodes[x*10+y];
+        elem.addEventListener("click", e => {
+            player.gb.placeShip(x, y, axis, ships[0].length);
+            ships.shift();
+            updateShipComment(document.querySelector(".shipsPlaced"));
+            if(ships.length == 0){
+                removeShipSetter();
+            }
+        })
+    }))
+}
+
+function deleteShipSetter(){
+    let elem = document.querySelector(".frame");
+    if(elem && elem!=null){
+        elem.remove();
+    }
+}
+
+
+export {showWhole, showHidden, game, shipSetter}

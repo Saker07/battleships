@@ -73,3 +73,13 @@ h3 {
 
 /* align center is not align stretch */
 /*to use both wrap in div and stretch one and center the other?*/
+
+.frame {
+  position: absolute; 
+  width: 100vw; 
+  height: 100vh; 
+  background-color: black; 
+  opacity: 0.5; 
+  top: 0; 
+  left: 0;
+}

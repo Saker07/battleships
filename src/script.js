@@ -22,5 +22,7 @@ console.table(p1.gb.update().map(column => column.map(item=>{
 })));
 domStuff.game(p1, p2);
 
+domStuff.shipSetter(p1);
+
 /* domStuff.showWhole(p1.anch, p1.gb); */
 /**/
