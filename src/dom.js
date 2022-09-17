@@ -35,79 +35,117 @@ function addClassToCell(cell, elem){    //add the right class to the cell based 
     elem.classList.add(stateClass);
 }
 
-function addEventHitCell(elem, x, y){ //add the handler for the hit to the element
+/* function addEventHitCell(elem, x, y){ //add the handler for the hit to the element
     elem.addEventListener("click", e => {
         if (nextP.gb.receiveDamage(x, y)){
             //if mode is AI then call AI, otherwise call game with opposites.
-            if(AIMode == true){AITurn()}
+            if(window.AIMode == true){AITurn()}
             else{game(nextP, currP)} //not complete since there is no way to manage local multiplayer yet.
         }
     })
-}
+} */
 function AI(){
+    const selectRandomCell= function (board){
+        //returns a random x,y pair in a square board.
+        let max = board.length;
+        let x, y;
+        x = max * Math.random();
+        y = max * Math.random();
+        x = Math.floor(x);
+        y = Math.floor(y);
+        return {x, y};
+    }
     const hitRandom = function (user, playerAI){
         let board = playerAI.gb.update();
         let x, y;
-        let max = board.length;
-        for(let f = false; f==false;){
-            x = max * Math.random();
-            y = max * Math.random();
-            x = Math.floor(x);
-            y = Math.floor(y);
-            console.log(x);                                                                                                     //delete
-            console.log(y);                                                                                                     //delete
-
-            f = (user.gb.receiveDamage(x, y)); //hit returns true if it hit something, false if it doesn't
-            console.log(`result: ${f}`)
+        let flag = false;
+        while(flag==false){
+            ({x, y} = selectRandomCell(board));
+            flag = user.gb.receiveDamage(x, y); //hit returns true if it hit something, false if it doesn't
         }
     }
+    const placeRandom = function (AIgb, shipLength){
+        let flag = false;
+        while(flag == false){
+            let {x, y} = selectRandomCell(AIgb.update());
+            let axis = Math.random() > 0.5 ? "x" : "y";
+            flag = !!(
+                AIgb.placeShip(x, y, axis, shipLength)
+            );
+            console.log("PROBLEM=====")
+        }
+    }
+    const placeAllRandomShips = function (AIgb){
+        window.allShips.forEach(item => {
+            placeRandom(AIgb, item.length)
+        })
+    }
+
     const AITurn = function (user, playerAI){
         //Call showHiden again just to get rid of event listeners so that the user can't hit.
         showHidden(playerAI.anch, playerAI.gb);
         hitRandom(user, playerAI);
-        game(user, playerAI); //again the AI is always p2 and so the user is always p1
+        if(alertOnGameEnd(user, playerAI)){
+            return
+        } else {
+            game(user, playerAI); //again the AI is always p2 and so the user is always p1
+        }
     }
-    return {hitRandom, AITurn}
+    return {hitRandom, AITurn, placeAllRandomShips}
+}
+
+function alertOnGameEnd(loser, winner){
+    if (loser.gb.endOfGame()) {
+        alert(`${winner.name} won!
+        The game will now be reset.`)
+        resetGame();
+        return true;
+    } else {
+        return false
+    }
 }
 
 
-
 function game(currP, nextP){
-/* 
-    showWhole curr player
-    show hidden next player
-    add event to next player
-        receive damage, if true and AImode=true, call AI, otherwhise, call game(inverso)
-            */
-    const AIMode = true;
-    console.table(currP.gb.update().map(column => column.map(item=>{                                                            //delete
-        return item.state;
-    })))
+    //starts the game, the player board should already be ready with all ships placed when this is called.
+    const {AITurn} = AI();
     showWhole(currP.anch, currP.gb);
     showHidden(nextP.anch, nextP.gb);
     nextP.gb.update().forEach((column, x) => column.forEach((cell, y) => { //for every cell in the board
+        //add event to trigger the hit
         let elem = nextP.anch.childNodes[x*10+y];
         addEventHitCell(elem, x, y);
     }))
 
 
+
+
     function addEventHitCell(elem, x, y){ //add the handler for the hit to the element
         elem.addEventListener("click", e => {
             if (nextP.gb.receiveDamage(x, y)){
-                //if mode is AI then call AI, otherwise call game with opposites.
-                if(AIMode == true){
+                if(alertOnGameEnd(nextP, currP)){
+
+                } else if(window.AIMode == true){
+                    //if mode is AI then call AI, otherwise call game with opposites.
                     AITurn(currP, nextP);
+                } else {
+                    //not complete since multiplayer is not implemented yet.
+                    game(nextP, currP);
                 }
-                else{game(nextP, currP)} //not complete since there is no way to manage local multiplayer yet.
             }
         })
     }
-    const {AITurn, hitRandom} = AI();
 };
 
+function resetGame(){
+    window.p1.gb = gameboardFactory();
+    window.p2.gb = gameboardFactory();
+    shipSetter(p1);
+}
 
-async function shipSetter(player){
-    const allShips = [{length: 3}, {length: 3}, {length: 3}];
+
+function shipSetter(player){
+    const allShips = /* window.allShips || */ [{length: 3}, {length: 3}, {length: 3}];
     let ships = Array.from(allShips);
     let axis = "x";
 
@@ -127,9 +165,14 @@ async function shipSetter(player){
     axisText.textContent = "Current axis: ";
     divv.appendChild(axisText);
     let axisBtn = document.createElement("button");
+    console.log(axis);
     axisBtn.addEventListener("click", e => {
+        console.log(axis);
         axis = axis == "x" ? "y" : "x";
+        console.log(axis);
         axisBtn.textContent = `${axis.toUpperCase()}`
+        showWhole(grid, player.gb);
+        addEventPlaceShipToCells(grid, player, ships, axis);
     });
     axisBtn.textContent = `${axis.toUpperCase()}`;
     axisText.appendChild(axisBtn);
@@ -138,8 +181,6 @@ async function shipSetter(player){
     resetBtn.textContent = "Reset";
     resetBtn.addEventListener("click", e => {
         p1.gb = gameboardFactory();
-        console.log(ships);
-        console.log(allShips);
         ships = Array.from(allShips);
         console.log(ships.length)
         showWhole(grid, player.gb);
@@ -157,8 +198,9 @@ async function shipSetter(player){
     shipComment.classList.add("shipsPlaced");
     shipComment.textContent = `${ships.length}x ships left to place!`;
     divv.appendChild(shipComment);
-
 }
+
+
 function updateShipComment(shipComment, inp){
     shipComment.textContent = `${inp}x ships left to place!`;
 }
@@ -186,6 +228,10 @@ function removeShipSetter(){
     let elem = document.querySelector(".frame");
     if(elem && elem!=null){
         elem.remove();
+    }
+    if(window.AIMode == true){
+        //if the mode is AI, populate the p2 board (p2 is always the AI)
+        AI().placeAllRandomShips(p2.gb);
     }
     game(p1, p2);
 }

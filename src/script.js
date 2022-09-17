@@ -5,13 +5,18 @@ import * as domStuff from "./dom.js"
 
 
 window.p1 = {
+    name: "Player 1",
     gb: gameboardFactory(),
     anch: document.querySelector(".gameboardTest.playerOne")
 }
 window.p2 = {
+    name: "Player 2",
     gb: gameboardFactory(),
     anch: document.querySelector(".gameboardTest.playerTwo")
 }
+window.allShips = [{length: 3}];
+window.AIMode = true; //when multiplayer implemented this needs to be changed to false
+console.log(allShips.length)
 
 /**/
 let p1 = window.p1;
