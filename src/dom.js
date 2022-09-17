@@ -81,15 +81,22 @@ function AI(){
         })
     }
 
+    const timer = (milliseconds)=>{
+        return new Promise(
+            (toCall)=>{setTimeout(toCall, milliseconds)});
+    }
+
     const AITurn = function (user, playerAI){
         //Call showHiden again just to get rid of event listeners so that the user can't hit.
         showHidden(playerAI.anch, playerAI.gb);
         hitRandom(user, playerAI);
-        if(alertOnGameEnd(user, playerAI)){
-            return
-        } else {
-            game(user, playerAI); //again the AI is always p2 and so the user is always p1
-        }
+        timer(500).then(()=>{
+            if(alertOnGameEnd(user, playerAI)){
+                return
+            } else {
+                game(user, playerAI); //again the AI is always p2 and so the user is always p1
+            }
+        });
     }
     return {hitRandom, AITurn, placeAllRandomShips}
 }
@@ -161,7 +168,7 @@ function shipSetter(player){
     title.textContent = "Place your ships!";
     divv.appendChild(title);
 
-    let axisText = document.createElement("h5");
+    let axisText = document.createElement("p");
     axisText.textContent = "Current axis: ";
     divv.appendChild(axisText);
     let axisBtn = document.createElement("button");
@@ -237,4 +244,4 @@ function removeShipSetter(){
 }
 
 
-export {showWhole, showHidden, game, shipSetter}
+export {showWhole, showHidden, game, shipSetter, resetGame}

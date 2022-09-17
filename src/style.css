@@ -14,6 +14,7 @@ body {
   text-align: center;
   margin-bottom: 1rem;
 }
+h1 {margin-bottom: 1rem;}
 
 h1 {
   margin-top: 1em;
@@ -88,9 +89,23 @@ h3 {
 .frame>.placeShipsDiv {
   background-color: white;
   opacity: 1;
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0.5rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.603);
+}
+
+.frame{
+  font-size: 1.3rem;
+  font-weight: bolder;
+}
+.frame h5{
+  font-size: 1.7rem;
+}
+
+button {
+  font-size: 1.2rem;
 }

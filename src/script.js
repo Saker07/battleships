@@ -16,7 +16,10 @@ window.p2 = {
 }
 window.allShips = [{length: 3}];
 window.AIMode = true; //when multiplayer implemented this needs to be changed to false
-console.log(allShips.length)
+
+const mainResetBtn = document.querySelector(".resetBtn.mainBtn");
+mainResetBtn.addEventListener("click", domStuff.resetGame)
+
 
 /**/
 let p1 = window.p1;
@@ -28,7 +31,9 @@ console.table(p1.gb.update().map(column => column.map(item=>{
 })));
 /* domStuff.game(p1, p2); */ //not needed as i can start the game everytime the setter is done, instead of on load
 
-domStuff.shipSetter(p1);
+/* domStuff.shipSetter(p1); */
+domStuff.resetGame();
+
 
 /* domStuff.showWhole(p1.anch, p1.gb); */
 /**/
