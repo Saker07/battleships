@@ -105,7 +105,7 @@ function game(currP, nextP){
 
 
 function shipSetter(player){
-    const ships = [{length: 3}];
+    const ships = [{length: 3}, {length: 3}, {length: 3}];
     let axis = "x";
 
     let frame = document.createElement("div");
@@ -120,10 +120,19 @@ function shipSetter(player){
     title.textContent = "Place your ships!";
     divv.appendChild(title);
 
+    let axisText = document.createElement("h5");
+    axisText.textContent = "Current axis: ";
+    divv.appendChild(axisText);
     let axisBtn = document.createElement("button");
-    axisBtn.addEventListener("click", e => {axis = axis == "x" ? "y" : "x"});
-    divv.appendChild(axisBtn);
+    axisBtn.addEventListener("click", e => {
+        axis = axis == "x" ? "y" : "x";
+        axisBtn.textContent = `${axis.toUpperCase()}`
+    });
+    axisBtn.textContent = `${axis.toUpperCase()}`;
+    axisText.appendChild(axisBtn);
+
     let resetBtn = document.createElement("button");
+    resetBtn.textContent = "Reset";
     divv.appendChild(resetBtn);
 
     let grid = document.createElement("div");
@@ -150,10 +159,13 @@ function addEventPlaceShipToCells(anch, player, ships, axis){
             if(placed){
                 ships.shift();
             }
-            updateShipComment(document.querySelector(".shipsPlaced"));
+            updateShipComment(document.querySelector(".shipsPlaced"), ships.length);
             if(ships.length == 0){
                 removeShipSetter();
             }
+            //once you add the ship you have to refresh the grid and add the eventListeners again
+            showWhole(anch, player.gb);
+            addEventPlaceShipToCells(anch, player, ships, axis);
         })
     }))
 }

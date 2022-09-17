@@ -78,8 +78,19 @@ h3 {
   position: absolute; 
   width: 100vw; 
   height: 100vh; 
-  background-color: black; 
-  opacity: 0.5; 
+  background-color: rgba(0, 0, 0, 0.5); 
   top: 0; 
   left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.frame>.placeShipsDiv {
+  background-color: white;
+  opacity: 1;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
