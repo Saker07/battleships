@@ -5,4 +5,3 @@ TODO:
     add endOfGame win/lose announcer
     add Reset and function
     add random ship placement for AI
-    add ship placer at start and reset of game

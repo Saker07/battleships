@@ -1,3 +1,5 @@
+import gameboardFactory from "./gameboardFactory";
+
 function showHidden(anch, gb){
     //makes gameboard GB on screen by replacing content of ANCH, hidden means it is the "enemy's" board, so you don't see the ships
     let board = gb.update();
@@ -104,8 +106,9 @@ function game(currP, nextP){
 };
 
 
-function shipSetter(player){
-    const ships = [{length: 3}, {length: 3}, {length: 3}];
+async function shipSetter(player){
+    const allShips = [{length: 3}, {length: 3}, {length: 3}];
+    let ships = Array.from(allShips);
     let axis = "x";
 
     let frame = document.createElement("div");
@@ -133,6 +136,15 @@ function shipSetter(player){
 
     let resetBtn = document.createElement("button");
     resetBtn.textContent = "Reset";
+    resetBtn.addEventListener("click", e => {
+        p1.gb = gameboardFactory();
+        console.log(ships);
+        console.log(allShips);
+        ships = Array.from(allShips);
+        console.log(ships.length)
+        showWhole(grid, player.gb);
+        addEventPlaceShipToCells(grid, player, ships, axis);
+    })
     divv.appendChild(resetBtn);
 
     let grid = document.createElement("div");
@@ -175,6 +187,7 @@ function removeShipSetter(){
     if(elem && elem!=null){
         elem.remove();
     }
+    game(p1, p2);
 }
 
 
