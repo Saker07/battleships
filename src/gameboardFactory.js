@@ -69,7 +69,8 @@ function gameboardFactory(inputSize){
         receiveDamage,
         update,
         placeShip,
-        endOfGame
+        endOfGame,
+        checkCollision
     }
 
     /* {

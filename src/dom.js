@@ -6,7 +6,7 @@ function showHidden(anch, gb){
     let table = document.createElement("div");
     board.forEach(column => column.forEach(cell => {
         let hiddenC = document.createElement("div");
-        addClassToCell(cell, hiddenC);
+        addClassToCell(cell, hiddenC, "hiddenCell");
         table.appendChild(hiddenC);
     }))
     anch.innerHTML = table.innerHTML;
@@ -18,16 +18,19 @@ function showWhole(anch, gb){
     let table = document.createElement("div");
     board.forEach(column => column.forEach(cell => {
         let shownC = document.createElement("div");
-        addClassToCell(cell, shownC);
-        if(cell.hit){shownC.textContent = "*"}
+        addClassToCell(cell, shownC, "shownCell");
+        if(cell.hit){
+            shownC.textContent = "⬤";
+            shownC.style.backgroundColor = "pink";
+        }
         table.appendChild(shownC);
     }))
     anch.innerHTML = table.innerHTML;
 }
 
-function addClassToCell(cell, elem){    //add the right class to the cell based on its state
+function addClassToCell(cell, elem, showType){    //add the right class to the cell based on its state
     let stateClass;
-    elem.classList.add("hiddenCell");
+    elem.classList.add(showType);
     if(cell.state == 0){stateClass = "notHit"}
     else if(cell.state == -1){stateClass = "miss"}
     else if(cell.state == 1){stateClass = "hit"}
@@ -44,6 +47,10 @@ function addClassToCell(cell, elem){    //add the right class to the cell based 
         }
     })
 } */
+const timer = (milliseconds)=>{
+    return new Promise(
+        (toCall)=>{setTimeout(toCall, milliseconds)});
+}
 function AI(){
     const selectRandomCell= function (board){
         //returns a random x,y pair in a square board.
@@ -55,6 +62,7 @@ function AI(){
         y = Math.floor(y);
         return {x, y};
     }
+
     const hitRandom = function (user, playerAI){
         let board = playerAI.gb.update();
         let x, y;
@@ -64,6 +72,7 @@ function AI(){
             flag = user.gb.receiveDamage(x, y); //hit returns true if it hit something, false if it doesn't
         }
     }
+
     const placeRandom = function (AIgb, shipLength){
         let flag = false;
         while(flag == false){
@@ -81,18 +90,13 @@ function AI(){
         })
     }
 
-    const timer = (milliseconds)=>{
-        return new Promise(
-            (toCall)=>{setTimeout(toCall, milliseconds)});
-    }
+    
 
     const AITurn = function (user, playerAI){
-        //Call showHiden again just to get rid of event listeners so that the user can't hit.
-        showHidden(playerAI.anch, playerAI.gb);
         hitRandom(user, playerAI);
         timer(500).then(()=>{
             if(alertOnGameEnd(user, playerAI)){
-                return
+                return;
             } else {
                 game(user, playerAI); //again the AI is always p2 and so the user is always p1
             }
@@ -103,9 +107,11 @@ function AI(){
 
 function alertOnGameEnd(loser, winner){
     if (loser.gb.endOfGame()) {
-        alert(`${winner.name} won!
-        The game will now be reset.`)
-        resetGame();
+        timer(500).then(()=>{
+            alert(`${winner.name} won!
+            The game will now be reset.`)
+            resetGame();
+        });
         return true;
     } else {
         return false
@@ -130,6 +136,8 @@ function game(currP, nextP){
     function addEventHitCell(elem, x, y){ //add the handler for the hit to the element
         elem.addEventListener("click", e => {
             if (nextP.gb.receiveDamage(x, y)){
+                //Call showHiden again just to get rid of event listeners so that the user can't hit multiple times.
+                showHidden(nextP.anch, nextP.gb);
                 if(alertOnGameEnd(nextP, currP)){
 
                 } else if(window.AIMode == true){
@@ -152,7 +160,7 @@ function resetGame(){
 
 
 function shipSetter(player){
-    const allShips = /* window.allShips || */ [{length: 3}, {length: 3}, {length: 3}];
+    const allShips = window.allShips || [{length: 3}, {length: 3}, {length: 3}];
     let ships = Array.from(allShips);
     let axis = "x";
 
@@ -214,7 +222,8 @@ function updateShipComment(shipComment, inp){
 function addEventPlaceShipToCells(anch, player, ships, axis){
     //take anch, player, shipsArray and the current axis, makes every cell in the anchored grid have the event to place a ship and get that ship out of the array, update the comment, if ships are finished remove the shipSetter div.
     player.gb.update().forEach((column, x) => column.forEach((cell, y) => {
-        let elem = anch.childNodes[x*10+y];
+        let currIndex = x*10+y;
+        let elem = anch.childNodes[currIndex];
         elem.addEventListener("click", e => {
             let placed = player.gb.placeShip(x, y, axis, ships[0].length);
             if(placed){
@@ -227,7 +236,27 @@ function addEventPlaceShipToCells(anch, player, ships, axis){
             //once you add the ship you have to refresh the grid and add the eventListeners again
             showWhole(anch, player.gb);
             addEventPlaceShipToCells(anch, player, ships, axis);
-        })
+        });
+        elem.addEventListener("mouseover", e => {
+            //check collision on cell corrisponding to this div, if no collision detected, show hover!
+            let coll = player.gb.checkCollision(x, y, axis, ships[0].length);
+            if(!coll){
+                let i, j;
+                for(i = 0, j = 0; i<ships[0].length; i++){
+                    anch.childNodes[currIndex+j].style.backgroundColor = "pink";
+                    j = axis == "x" ? j+10 : i+1;
+                }
+            }
+        });
+        elem.addEventListener("mouseout", e => {
+            //check collision on cell corrisponding to this div, if no collision detected, show hover!
+            let i, j;
+            if(elem.textContent != "⬤")
+                for(i = 0, j = 0; i<ships[0].length; i++){
+                    anch.childNodes[currIndex+j].style.backgroundColor = "";
+                    j = axis == "x" ? j+10 : i+1;
+                }
+        });
     }))
 }
 

@@ -14,7 +14,7 @@ window.p2 = {
     gb: gameboardFactory(),
     anch: document.querySelector(".gameboardTest.playerTwo")
 }
-window.allShips = [{length: 3}];
+window.allShips = [{length: 5}, {length: 4}, {length: 3}, {length: 3}, {length: 2}, {length: 1}];
 window.AIMode = true; //when multiplayer implemented this needs to be changed to false
 
 const mainResetBtn = document.querySelector(".resetBtn.mainBtn");
