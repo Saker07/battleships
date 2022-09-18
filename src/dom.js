@@ -21,7 +21,7 @@ function showWhole(anch, gb){
         addClassToCell(cell, shownC, "shownCell");
         if(cell.hit){
             shownC.textContent = "⬤";
-            shownC.style.backgroundColor = "pink";
+            shownC.classList.add("placedShown")
         }
         table.appendChild(shownC);
     }))
@@ -108,7 +108,8 @@ function AI(){
 function alertOnGameEnd(loser, winner){
     if (loser.gb.endOfGame()) {
         timer(500).then(()=>{
-            alert(`${winner.name} won!
+            alert(`
+            ${winner.name} won!
             The game will now be reset.`)
             resetGame();
         });

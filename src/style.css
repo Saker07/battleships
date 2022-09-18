@@ -74,6 +74,9 @@ h3 {
 .hiddenCell:hover:not(.sunk):not(.miss):not(.hit){
   background-color: rgb(33 0 213 / 65%);;
 }
+.placedShown {
+  background-color: pink;
+}
 .miss {
   background-color: rgb(255, 255, 255);
   
