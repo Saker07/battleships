@@ -5,31 +5,29 @@
     isSunk: function return sunk true or false;
 } */
 
-
-
-export default function shipFactory(length){
-    let hitpoints = [];
-    for(let i=0; i<length; i++){
-        hitpoints.push(0);
-    }
-    const hit = (n) => {
-        //registers the hit in hitpoints and returns 1.
-        hitpoints[n] = 1;
-        return true;
-    }
-    const isSunk = () => {
-        //returns true if the ship is sunk
-        return hitpoints.every(point => point == 1);
-    }
-    return {
-        length,
-        hitpoints,
-        hit,
-        isSunk
-    }
+export default function shipFactory(length) {
+  let hitpoints = [];
+  for (let i = 0; i < length; i++) {
+    hitpoints.push(0);
+  }
+  const hit = (n) => {
+    //registers the hit in hitpoints and returns 1.
+    hitpoints[n] = 1;
+    return true;
+  };
+  const isSunk = () => {
+    //returns true if the ship is sunk
+    return hitpoints.every((point) => point == 1);
+  };
+  return {
+    length,
+    hitpoints,
+    hit,
+    isSunk,
+  };
 }
 
-export { shipFactory }
+export { shipFactory };
 
 /* module.exports = {
 shipFactory

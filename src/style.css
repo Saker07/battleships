@@ -1,5 +1,3 @@
-
-
 /*up until now its just mock elements */
 * {
   margin: 0;
@@ -11,7 +9,7 @@ body {
   background-color: rgba(134, 150, 155, 0.479);
 }
 
-.title{
+.title {
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -23,7 +21,7 @@ h1 {
   margin-bottom: 1rem;
 }
 .resetBtn {
-  font-size:1.6rem;
+  font-size: 1.6rem;
 }
 
 .gameContainer {
@@ -51,7 +49,8 @@ h3 {
   gap: 2rem;
 }
 
-.gameboardTest,.frame .shipPlaceGrid {
+.gameboardTest,
+.frame .shipPlaceGrid {
   flex-shrink: 1;
   background-color: red;
   width: 40rem;
@@ -59,8 +58,9 @@ h3 {
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
 }
-.hiddenCell,.shownCell {
-/*   position: absolute; */
+.hiddenCell,
+.shownCell {
+  /*   position: absolute; */
   background-color: blue;
   border-style: solid;
   border-color: black;
@@ -71,15 +71,14 @@ h3 {
   justify-content: center;
   transition: background-color 100ms linear;
 }
-.hiddenCell:hover:not(.sunk):not(.miss):not(.hit){
-  background-color: rgb(33 0 213 / 65%);;
+.hiddenCell:hover:not(.sunk):not(.miss):not(.hit) {
+  background-color: rgb(33 0 213 / 65%);
 }
 .placedShown {
   background-color: pink;
 }
 .miss {
   background-color: rgb(255, 255, 255);
-  
 }
 .hit {
   background-color: rgb(161, 199, 26);
@@ -92,17 +91,17 @@ h3 {
 /*to use both wrap in div and stretch one and center the other?*/
 
 .frame {
-  position: absolute; 
-  width: 100vw; 
-  height: 100vh; 
-  background-color: rgba(0, 0, 0, 0.5); 
-  top: 0; 
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.frame>.placeShipsDiv {
+.frame > .placeShipsDiv {
   background-color: white;
   opacity: 1;
   padding: 2rem;
@@ -114,11 +113,11 @@ h3 {
   box-shadow: 0.5rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.603);
 }
 
-.frame{
+.frame {
   font-size: 1.3rem;
   font-weight: bolder;
 }
-.frame h5{
+.frame h5 {
   font-size: 1.7rem;
 }
 
